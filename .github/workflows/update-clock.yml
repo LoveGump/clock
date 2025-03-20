@@ -2,7 +2,7 @@ name: Update Clock SVG
 
 on:
   schedule:
-    - cron: "*/1 * * * *"  # 每 1 分钟运行一次
+    - cron: "*/1 * * * *"  # 每 1 分钟更新一次
   workflow_dispatch:  # 允许手动触发
 
 jobs:
