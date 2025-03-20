@@ -1,0 +1,31 @@
+name: Update Clock SVG
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"  # 每 1 分钟运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  update-svg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Generate Clock SVG
+        run: |
+          TIME=$(date +"%H:%M:%S")
+          echo "<svg width='250' height='50' xmlns='http://www.w3.org/2000/svg'>
+          <rect width='100%' height='100%' fill='black'/>
+          <text x='50%' y='50%' font-size='25' fill='lime' text-anchor='middle' dominant-baseline='middle'>
+          $TIME
+          </text>
+          </svg>" > clock.svg
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add clock.svg
+          git commit -m "Updated clock: $(date)" || echo "No changes to commit"
+          git push
